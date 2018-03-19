@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>This is all_employees.html for displaying all employees in the database</h1>
+<br><br><br>
+
+{% endblock %}
+{% block content1 %}
+<ul>
+{% for e in all_employees %}
+<li>{{ e[0] }} at {{ e[1] }} - {{ e[2] }}</li><br>
+{% endfor %}
+</ul>
+
+{% if not all_employees %}
+There are no saved employees.
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %} 
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
+
+<a href="{{ url_for('employee')}}">Return to add a new employee</a>
+
+{% endblock %}

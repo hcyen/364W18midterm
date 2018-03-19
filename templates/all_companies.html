@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>This is all_companies.html for displaying all companies in the database</h1>
+<br><br><br>
+
+{% endblock %}
+{% block content1 %}
+<ul>
+{% for cn in company_names %}
+<li>{{ cn[0] }}: {%if cn[1] == 1 %} {{ cn[1]}} employee {% else %} {{ cn[1] }} employees {% endif %} </li><br>
+{% endfor %}
+</ul>
+
+{% if not company_names %}
+There are no saved companies.
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
+
+<a href="{{ url_for('employee')}}">Return to add another employee</a>
+
+{% endblock %}

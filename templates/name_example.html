@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>This is name_example.html for displaying all the names added in the database</h1>
+<br><br><br>
+
+{% endblock %}
+
+{% block content1 %}
+<h1>Names Visited</h1>
+
+
+
+{% for n in names %}
+    <p>{{ n }}</p>
+{% endfor %}
+
+
+{% endblock %}

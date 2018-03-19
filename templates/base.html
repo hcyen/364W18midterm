@@ -1,0 +1,33 @@
+<ul>
+    <li><a href="{{ url_for('all_names') }}">Name Visited</a></li>
+    <li><a href="{{ url_for('home') }}">Add New Name</a></li>
+    <li><a href="{{ url_for('company') }}">Add New Company</a></li>
+
+    <li><a href="{{ url_for('yelpsearch') }}">Search Best 5 Businesses in Yelp</a></li>
+    <li><a href="{{ url_for('employee') }}">Enter a new Employee and position</a></li>
+    <li><a href="{{ url_for('view_all_employees') }}">View all employees</a></li>
+    <li><a href="{{ url_for('see_all_companies') }}">View all companies</a></li>
+    <li><a href="{{ url_for('see_all_industries') }}">View all industries</a></li>
+</ul>
+
+{% block content %}
+
+<h1>This is base.html for adding new name</h1>
+<br><br><br>
+
+{% endblock %}
+
+{% block content1 %}
+
+<form action="{{ url_for('home') }}" method="POST">
+	 {{ form.hidden_tag() }}
+  	{% for message in get_flashed_messages() %}
+  	{{ message }}
+  	{% endfor %}
+    {{ form.name.label() }}{{ form.name() }}<br>
+    {{ form.submit() }}
+    
+</form>
+
+
+{% endblock %}

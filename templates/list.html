@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>This is list.html to display yelp business search results</h1>
+<br><br><br>
+
+{% endblock %}
+{% block content1 %}
+<h1> Here are the best 5 businesses for your search</h1>
+
+<ul>
+    {% for b in businesses %}
+        <li>
+        <h2>Business Name: {{ b['name'] }}</h2>
+        <h3>phone: {{ b['display_phone'] }}</h3>
+        <h3>rating: {{ b['rating'] }}</h3>
+        <h3>address: {{ b['location']['display_address'] }}</h3><br>
+        {% if b['url'] %}
+        	<div>website: <a href = "{{ b['url'] }}">click here</a>.</div>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+{% block foot %}
+<h2> you can search different business category</h2>
+{% endblock %}

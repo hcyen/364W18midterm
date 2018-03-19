@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>This is all_industries.html for displaying all the industries in the database</h1>
+<br><br><br>
+
+{% endblock %}
+
+{% block content1 %}
+<ul>
+{% for i in industry_names %}
+<li>{{ i[0] }}: {%if i[1] == 1 %} {{ i[1]}} company {% else %} {{ i[1] }} companies {% endif %} </li><br>
+{% endfor %}
+</ul>
+
+{% if not industry_names %}
+There are no saved industries.
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
+
+<a href="{{ url_for('company')}}">Return to add another company</a>
+
+{% endblock %}

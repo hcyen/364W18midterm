@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>This is yelp_search.html for searching the best 5 businesses in your search categories</h1>
+<br><br><br>
+
+{% endblock %}
+{% block content1 %}
+      <h2 style = "text-align: center;">Yelp Search Form - Search the best 5 businesses</h2>
+		
+      
+      
+      <form action = "{{ url_for('resultyelp') }}" method = "GET">
+         
+            {{ form.hidden_tag() }}
+            
+            <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+               
+            <tr>
+               <td>{{ form.category.label }}</td>
+               <td>{{ form.category }}</td>
+            </tr>   
+            <br>
+			  
+				<tr>
+					<td>{{ form.city.label }}</td>
+					<td>{{ form.city }}</td>
+				</tr>
+             <br>
+            <tr>
+               <td>{{ form.state.label }}</td>
+               <td>{{ form.state }}</td>
+            </tr>
+				
+			    
+
+              
+                {{ form.submit() }} 
+            </div>
+            
+         
+      </form>
+      
+ {% endblock %}

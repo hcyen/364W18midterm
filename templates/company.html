@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>This is company.html for adding new company</h1>
+<br><br><br>
+
+{% endblock %}
+{% block content1 %}
+<div class="page-header">
+    <h1>{% if num_companies %}{{ num_companies }}{% else %}0{% endif %} companies saved. </h1>
+    <p><a href="{{ url_for('see_all_companies') }}">See all companies.</a></p>
+    <p><a href="{{ url_for('see_all_industries') }}">See all industries.</a></p>
+</div>
+
+<form method="POST">
+	{{ form.hidden_tag() }}
+	
+	{{ form.company.label }} {{ form.company() }}
+	{{ form.industry.label }} {{ form.industry() }}
+	
+	{{ form.submit() }}
+</form>
+
+<div>
+{% for message in get_flashed_messages() %}
+{{ message }}
+{% endfor %}
+</div>
+{% endblock %}

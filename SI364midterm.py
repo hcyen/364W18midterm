@@ -41,91 +41,6 @@ api_key='n1El1-a4TORQrAc5xBjfX-Sc6ZKDPisyjMU_JTcGFxX8Je5LO1U40U_OCTWbO1zdHNwWYnB
 #yelp_api = YelpAPI(args.api_key)
 
 yelp_api = YelpAPI(api_key)
-'''
-CACHE_FNAME = "facebook_cache.json"
-# Put the rest of your caching setup here:
-
-
-try:
-      cache_file = open(CACHE_FNAME,'r')
-      cache_contents = cache_file.read()
-      cache_file.close()
-      CACHE_DICTION = json.loads(cache_contents)
-except:
-      CACHE_DICTION = {}
-
-from bottle import route, run, request # need to install bottle
-import spotipy
-from spotipy import oauth2
-import spotipy.util as util
-from flask_oauthlib.client import OAuth, OAuthException
-
-
-SPOTIPY_CLIENT_ID = '768fc818d9144afa8638077c57ac0a71'
-SPOTIPY_CLIENT_SECRET = '4f6fa22ad52a4fafb6f60d77aeec7cf4'
-SPOTIPY_REDIRECT_URI = 'http://localhost:5432/'
-SCOPE = 'user-library-read'
-CACHE = '.spotipyoauthcache'
-
-sp_oauth = oauth2.SpotifyOAuth( SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope=SCOPE,cache_path=CACHE )
-#https://stackoverflow.com/questions/26726165/python-spotify-oauth-flow
-
-oauth = OAuth(app)
-
-spotify = oauth.remote_app(
-    'spotify',
-    consumer_key=SPOTIFY_APP_ID,
-    consumer_secret=SPOTIFY_APP_SECRET,
-    # Change the scope to match whatever it us you need
-    # list of scopes can be found in the url below
-    # https://developer.spotify.com/web-api/using-scopes/
-    request_token_params={'scope': 'user-read-email'},
-    base_url='https://accounts.spotify.com',
-    request_token_url=None,
-    access_token_url='/api/token',
-    authorize_url='https://accounts.spotify.com/authorize'
-)
-
-
-@app.route('/')
-def index():
-    return redirect(url_for('login'))
-
-
-@app.route('/login')
-def login():
-    callback = url_for(
-        'spotify_authorized',
-        next=request.args.get('next') or request.referrer or None,
-        _external=True
-    )
-    return spotify.authorize(callback=callback)
-
-
-@app.route('/login/authorized')
-def spotify_authorized():
-    resp = spotify.authorized_response()
-    if resp is None:
-        return 'Access denied: reason={0} error={1}'.format(
-            request.args['error_reason'],
-            request.args['error_description']
-        )
-    if isinstance(resp, OAuthException):
-        return 'Access denied: {0}'.format(resp.message)
-
-    session['oauth_token'] = (resp['access_token'], '')
-    me = spotify.get('/me')
-    return 'Logged in as id={0} name={1} redirect={2}'.format(
-        me.data['id'],
-        me.data['name'],
-        request.args.get('next')
-    )
-
-
-@spotify.tokengetter
-def get_spotify_oauth_token():
-    return session.get('oauth_token')
-'''
 
 # Configure base directory of app
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -139,17 +54,8 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'hardtoguessstringfromsi364thisisnotsupersecurebutitsok'
 
-POSTGRES = {
-#hcyenhw3 = {
-    'user': 'postgres',
-    'pw': 'jydbman',
-    'db': 'hcyenmidtermdb_1',
-    'host': 'localhost',
-    'port': '5432',
-}
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
-#app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/hcyenmidtermdb"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/hcyenmidtermdb"
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -211,11 +117,6 @@ class Employee(db.Model):
 
 
 
-
-
-
-
-
 ##### Helper functions
 ### For database additions / get_or_create functions
 def get_or_create_industry(db_session, industry_name):
@@ -252,7 +153,7 @@ def get_or_create_company(db_session, company_name, company_industry ):
         return company
 
 # you cannot add the employee unless the company is in the database. If not, it will display the company form for you to add the company first.
-# This function returns two values. The purpose is to allow you to add the company first if the company is not in the database.
+# This function returns two values and the purpose is to allow you to add the company first if the company is not in the database.
 def get_or_create_employee(db_session, employee_name, employee_company, employee_position):
     employee = db_session.query(Employee).filter_by(name=employee_name).first()
     if employee:
@@ -378,18 +279,15 @@ class CompanyForm(FlaskForm):
 ###### VIEW FXNS ######
 #######################
 ## Error handling routes - PROVIDED
-
-#the following two functions are from lecture/discussion notes, AS WELL AS the two .html files in the template, are also from lecture notes.
+## The following two functions, plus the 404 and 500 .html files in the templates folder are from instructor's notes (discussion/lecture)
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-#from lecture/discussion
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
-#from lecture/discussion
 
 #https://stackoverflow.com/questions/20689195/flask-error-method-not-allowed-the-method-is-not-allowed-for-the-requested-url
 #so we add, methods=['GET', 'POST'] to the following two routes
@@ -563,7 +461,7 @@ def employee():
         else: #if 2nd returned value is False, then the company is not in the database. Display the company form to add company first.
 
             return  redirect(url_for('company'))
-            #return None   #ValueError: View function did not return a response
+            # return None   #ValueError: View function did not return a response
             #pass
 
     return render_template('employee.html', form=form, num_employees=num_employees)

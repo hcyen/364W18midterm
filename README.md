@@ -4,7 +4,7 @@ Pretend we are a headhunter company – the objective is to help businesses find
 
 This application uses Yelp API (required: pip install yelpapi), to allow user to search the best five businesses given a business category, city, and state. It will display the top five businesses, as well as their respective names, phone numbers, addresses, and Yelp business web URLs.
 
-It also creates tables for names, industries, companies, and employees in the postgresql database: hcyenmidtermdb_1
+It also creates tables for names, industries, companies, and employees in the postgresql database: hcyenmidtermdb
 
 It allows the user to add name (duplicated data allowed).
 
